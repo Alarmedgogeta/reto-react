@@ -1,0 +1,22 @@
+.actor__container{
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.actor__container--title h1{
+    font-weight: 600;
+}
+
+.actor__container--content{
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+}
+.actor__about{
+    width: 20%;
+}
+.actor__movies{
+    width: 70%;
+}
