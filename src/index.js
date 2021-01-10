@@ -7,7 +7,13 @@ import App from './routes/App';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 
-const store = createStore(reducer, {});
+const initialState = {
+  actor: null,
+  loading: false,
+  error: null,
+};
+
+const store = createStore(reducer, initialState);
 
 ReactDOM.render(
   <Provider store={store}>

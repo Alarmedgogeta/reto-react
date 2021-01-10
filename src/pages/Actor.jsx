@@ -1,121 +1,100 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/no-unused-state */
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Spin } from 'antd';
+import { setActor, setLoading, setError } from '../actions';
 import ActorCard from '../components/ActorCard';
 import GoBackButton from '../components/GoBackButton';
 import MovieCard from '../components/MovieCard';
 import '../assets/styles/pages/Actor.css';
 
 const API_KEY = '77051be82ce0b4a1d97fda8ad51b39dd';
+const API_URL = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&language=es`;
 
-class Actor extends Component {
+const Actor = ({ actor, error, loading, setActor, setLoading, setError }) => {
+  const { name } = useParams();
 
-  // eslint-disable-next-line constructor-super
-  constructor(props) {
-    super();
-    this.state = {
-      loading: true,
-      error: null,
-      actor: null,
-    };
-    this.name = props.match.params.name;//this.getActorName();
-    console.log(this.name);
-  }
+  const hasActor = actor !== null && Object.keys(actor).length > 0;
 
-  componentDidMount() {
-    this.fetchActor();
-  }
-
-  getActorName = () => {
-    const { name } = useParams();
-    return name;
-  }
-
-  fetchActor = async () => {
-    this.setState({
-      loading: true,
-      actor: null,
-      error: null,
-    });
+  const fetchActor = async () => {
+    setLoading(true);
     try {
-      const seacrh = await fetch(`https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${this.name}&language=es`);
-      const data = await seacrh.json();
-      console.log(data);
-      this.setState({
-        loading: false,
-        actor: {
-          gender: data.results[0].gender,
-          name: data.results[0].name,
-          cover: data.results[0].profile_path,
-          rating: data.results[0].popularity,
-          known_for: data.results[0].known_for,
-        },
-        error: null,
-      });
+      const response = await fetch(`${API_URL}&query=${name}`);
+      const data = await response.json();
+      setActor(data.results[0]);
     } catch (error) {
-      console.log(error);
-      this.setState({
-        loading: false,
-        actor: null,
-        error,
-      });
+      setError(error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  render() {
-    if (this.state.loading) {
-      return (
-        <Spin size='large' />
-      );
-    }
+  useEffect(() => {
+    fetchActor();
+  }, []);
+
+  if (loading) {
     return (
-      <div className='actor__container'>
-        <div className='actor__container--header'>
-          <GoBackButton />
-        </div>
-        <div className='actor__container--content'>
-          {this.state.loading && (
-            <h1>Cargando</h1>
-          )}
-          {this.state.error && (
-            <h1>{this.state.error}</h1>
-          )}
-          {this.state.actor && (
-            <>
-              <div className='actor__about'>
-                <ActorCard
-                  name={this.state.actor.name}
-                  cover={this.state.actor.cover}
-                  gender={this.state.actor.gender}
-                  rating={this.state.actor.rating}
-                />
-              </div>
-              <div className='actor__movies'>
-                <div className='actor__movies--header'>
-                  <h1>Películas:</h1>
-                </div>
-                <div className='actor__movies--content'>
-                  {this.state.actor.known_for.map((movie) => (
-                    <MovieCard
-                      key={movie.id}
-                      id={movie.id}
-                      title={movie.media_type === 'movie' ? movie.title : movie.name}
-                      cover={movie.backdrop_path}
-                      overview={movie.overview}
-                      date={movie.media_type === 'movie' ? movie.release_date : movie.first_air_date}
-                      grade={movie.vote_average}
-                    />
-                    ))}
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      <Spin size='large' />
     );
   }
-}
+  if (error) {
+    return (<p>{error.message}</p>);
+  }
+  return (
+    <div className='actor__container'>
+      <div className='actor__container--header'>
+        <GoBackButton />
+      </div>
+      <div className='actor__container--content'>
+        {hasActor && (
+          <>
+            <div className='actor__about'>
+              <ActorCard
+                name={actor.name}
+                cover={actor.profile_path}
+                gender={actor.gender}
+                rating={actor.popularity}
+              />
+            </div>
+            <div className='actor__movies'>
+              <div className='actor__movies--header'>
+                <h1>Películas:</h1>
+              </div>
+              <div className='actor__movies--content'>
+                {actor.known_for.map((movie) => (
+                  <MovieCard
+                    key={movie.id}
+                    id={movie.id}
+                    title={movie.media_type === 'movie' ? movie.title : movie.name}
+                    cover={movie.backdrop_path}
+                    overview={movie.overview}
+                    date={movie.media_type === 'movie' ? movie.release_date : movie.first_air_date}
+                    grade={movie.vote_average}
+                  />
+                  ))}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
 
-export default Actor;
+};
+
+const mapStateToProps = (state) => {
+  return {
+    actor: state.actor,
+    loading: state.loading,
+    error: state.error,
+  };
+};
+
+const mapDispatchToProps = {
+  setActor,
+  setLoading,
+  setError,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Actor);

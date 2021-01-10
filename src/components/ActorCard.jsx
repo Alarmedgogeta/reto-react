@@ -24,6 +24,7 @@ const ActorCard = ({ name, cover, gender, rating }) => {
         headStyle={{
           fontSize: '18px',
           fontWeight: '700',
+          textAlign: 'center',
         }}
         style={{ maxHeight: '60vh' }}
       >
