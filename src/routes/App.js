@@ -16,8 +16,6 @@ const App = () => (
           <Menu.Item key='Home'>
             <Link to='/'>¿Quién es este actor?</Link>
           </Menu.Item>
-          <Menu.Item key='Actors'><Link to='/Actors'>Actores</Link></Menu.Item>
-          <Menu.Item key='3'>nav 3</Menu.Item>
         </Menu>
       </Header>
       <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

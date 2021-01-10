@@ -1,19 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Upload, message, Progress } from 'antd';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { Upload, message, Progress, Spin } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-//import { info } from 'node-sass';
+import { setLoading } from '../actions';
 
 const { Dragger } = Upload;
 
-const Dropzone = () => {
+const Dropzone = ({ loading, setLoading }) => {
 
   const history = useHistory();
 
   const handleChange = (info) => {
     const { status } = info.file;
     if (status !== 'uploading') {
+      setLoading(true);
     }
     if (status === 'done') {
       if (info.file.response.error) {
@@ -21,8 +22,10 @@ const Dropzone = () => {
       } else {
         history.push(`/Actor/${info.file.response.actorName}`);
       }
+      setLoading(false);
     } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`El archivo ${info.file.name} falló en su envío, intente nuevamente.`);
+      setLoading(false);
     }
   };
 
@@ -51,13 +54,30 @@ const Dropzone = () => {
       <p className='ant-upload-drag-icon'>
         <InboxOutlined />
       </p>
-      <p className='ant-upload-text'>Haz click o arrastra una imagen</p>
-      <p className='ant-upload-hint'>
-        Selecciona la foto de un actor famoso para conocer quien es y
-        en qué peliculas ha salido.
-      </p>
+      {!loading && (
+        <>
+          <p className='ant-upload-text'>Haz click o arrastra una imagen</p>
+          <p className='ant-upload-hint'>
+            Selecciona la foto de un actor famoso para conocer quien es y
+            en qué peliculas ha salido.
+          </p>
+        </>
+      )}
+      {loading && (
+        <Spin size='large' />
+      )}
     </Dragger>
   );
 };
 
-export default Dropzone;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading,
+  };
+};
+
+const mapDispatchToProps = {
+  setLoading,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dropzone);

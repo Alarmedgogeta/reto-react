@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'antd';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const GoBackButton = () => {
@@ -23,8 +22,3 @@ const GoBackButton = () => {
 };
 
 export default GoBackButton;
-
-/*
-loading={loadings[1]}
-        onClick={() => { this.enterLoading(1) }}
-*/
