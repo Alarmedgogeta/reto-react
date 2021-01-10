@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Upload, message } from 'antd';
+import { Upload, message, Progress } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { InboxOutlined } from '@ant-design/icons';
 //import { info } from 'node-sass';
@@ -14,12 +14,13 @@ const Dropzone = () => {
   const handleChange = (info) => {
     const { status } = info.file;
     if (status !== 'uploading') {
-      //console.log(info.file, info.fileList);
     }
     if (status === 'done') {
-      console.log(info.file.response.actorName);
-      //message.success(`${info.file.name} file uploaded successfully.`);
-      history.push(`/Actor/${info.file.response.actorName}`);
+      if (info.file.response.error) {
+        message.error(info.file.response.error);
+      } else {
+        history.push(`/Actor/${info.file.response.actorName}`);
+      }
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
@@ -33,6 +34,14 @@ const Dropzone = () => {
     headers: {
       Nomada: 'OTdiMzQ5MjgtOTI5Ni00M2YwLWI0MDgtYmM4OTViMzQwYzJj',
     },
+    progress: (<Progress
+      strokeColor={{
+        from: '#108ee9',
+        to: '#87d068',
+      }}
+      percent={99.9}
+      status='active'
+    />),
     onChange: handleChange,
   };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Divider } from 'antd';
 //import Layout from '../containers/Layout';
 import Home from '../pages/Home';
 import Actor from '../pages/Actor';
@@ -27,7 +27,16 @@ const App = () => (
           <Route component={NotFound} />
         </Switch>
       </Content>
-      <Footer>Footer</Footer>
+      <Footer style={{
+        display: 'flex',
+        justifyContent: 'center',
+        }}
+      >
+        <p>Alan Diaz Yañez</p>
+        <Divider type='vertical' />
+        {' '}
+        <p>Github: @Alarmedgogeta</p>
+      </Footer>
     </Layout>
   </BrowserRouter>
 );
