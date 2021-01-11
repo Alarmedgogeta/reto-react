@@ -1,10 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Card, Image, Rate } from 'antd';
 import '../assets/styles/components/MovieCard.css';
 
 const BASE_URL_IMAGES = 'https://image.tmdb.org/t/p/original';
 
-const MovieCard = ({ id, title, cover, overview, date, grade }) => {
+const MovieCard = ({ id, movies }) => {
+
+  console.log(movies);
+  const { title, overview } = movies[id];
+
+  const cover = movies[id].poster_path;
+  const date = movies[id].release_date;
+  const grade = movies[id].vote_average;
 
   const newGrade = Math.round((grade / 2) * 10) / 10;
 
@@ -41,4 +49,10 @@ const MovieCard = ({ id, title, cover, overview, date, grade }) => {
   );
 };
 
-export default MovieCard;
+const mapStateToProps = (state) => {
+  return {
+    movies: state.movies,
+  };
+};
+
+export default connect(mapStateToProps, null)(MovieCard);

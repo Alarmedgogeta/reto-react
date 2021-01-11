@@ -1,8 +1,9 @@
+/* eslint-disable no-param-reassign */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Spin } from 'antd';
-import { setActor, setLoading, setError } from '../actions';
+import { setLoading, setError, deserializeActor } from '../actions';
 import ActorCard from '../components/ActorCard';
 import GoBackButton from '../components/GoBackButton';
 import MovieCard from '../components/MovieCard';
@@ -11,7 +12,7 @@ import '../assets/styles/pages/Actor.css';
 const API_KEY = '77051be82ce0b4a1d97fda8ad51b39dd';
 const API_URL = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&language=es`;
 
-const Actor = ({ actor, error, loading, setActor, setLoading, setError }) => {
+const Actor = ({ actor, error, loading, setLoading, setError, deserializeActor }) => {
   const { name } = useParams();
 
   const hasActor = actor !== null && Object.keys(actor).length > 0;
@@ -21,7 +22,7 @@ const Actor = ({ actor, error, loading, setActor, setLoading, setError }) => {
     try {
       const response = await fetch(`${API_URL}&query=${name}`);
       const data = await response.json();
-      setActor(data.results[0]);
+      deserializeActor(data.results[0]);
     } catch (error) {
       setError(error);
     } finally {
@@ -62,15 +63,10 @@ const Actor = ({ actor, error, loading, setActor, setLoading, setError }) => {
                 <h1>Películas:</h1>
               </div>
               <div className='actor__movies--content'>
-                {actor.known_for.map((movie) => (
+                {actor.known_for.map((id) => (
                   <MovieCard
-                    key={movie.id}
-                    id={movie.id}
-                    title={movie.media_type === 'movie' ? movie.title : movie.name}
-                    cover={movie.backdrop_path}
-                    overview={movie.overview}
-                    date={movie.media_type === 'movie' ? movie.release_date : movie.first_air_date}
-                    grade={movie.vote_average}
+                    key={id}
+                    id={id}
                   />
                   ))}
               </div>
@@ -85,14 +81,14 @@ const Actor = ({ actor, error, loading, setActor, setLoading, setError }) => {
 
 const mapStateToProps = (state) => {
   return {
-    actor: state.actor,
+    actor: state.current_actor_id ? state.actor[state.current_actor_id] : state.actor,
     loading: state.loading,
     error: state.error,
   };
 };
 
 const mapDispatchToProps = {
-  setActor,
+  deserializeActor,
   setLoading,
   setError,
 };

@@ -8,9 +8,11 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 
 const initialState = {
-  actor: null,
+  actor: {},
+  movies: {},
   loading: false,
   error: null,
+  current_actor_id: '',
 };
 
 const store = createStore(reducer, initialState);

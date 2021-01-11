@@ -5,10 +5,12 @@ import { Upload, message, Progress, Spin } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { setLoading } from '../actions';
 
-const { Dragger } = Upload;
+const API_URL = 'https://whois.nomada.cloud/upload';
+const API_KEY = 'OTdiMzQ5MjgtOTI5Ni00M2YwLWI0MDgtYmM4OTViMzQwYzJj';
 
 const Dropzone = ({ loading, setLoading }) => {
 
+  const { Dragger } = Upload;
   const history = useHistory();
 
   const handleChange = (info) => {
@@ -33,9 +35,9 @@ const Dropzone = ({ loading, setLoading }) => {
     name: 'file',
     accept: '.jpg,.png',
     multiple: false,
-    action: 'https://whois.nomada.cloud/upload',
+    action: API_URL,
     headers: {
-      Nomada: 'OTdiMzQ5MjgtOTI5Ni00M2YwLWI0MDgtYmM4OTViMzQwYzJj',
+      Nomada: API_KEY,
     },
     progress: (<Progress
       strokeColor={{
@@ -54,7 +56,7 @@ const Dropzone = ({ loading, setLoading }) => {
       <p className='ant-upload-drag-icon'>
         <InboxOutlined />
       </p>
-      {!loading && (
+      {loading ? (<Spin size='large' />) : (
         <>
           <p className='ant-upload-text'>Haz click o arrastra una imagen</p>
           <p className='ant-upload-hint'>
@@ -62,9 +64,6 @@ const Dropzone = ({ loading, setLoading }) => {
             en qué peliculas ha salido.
           </p>
         </>
-      )}
-      {loading && (
-        <Spin size='large' />
       )}
     </Dragger>
   );

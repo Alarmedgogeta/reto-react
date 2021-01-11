@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import { Layout, Menu, Divider } from 'antd';
-//import Layout from '../containers/Layout';
 import Home from '../pages/Home';
 import Actor from '../pages/Actor';
 import NotFound from '../pages/NotFound';
@@ -32,8 +31,10 @@ const App = () => (
       >
         <p>Alan Diaz Yañez</p>
         <Divider type='vertical' />
-        {' '}
-        <p>Github: @Alarmedgogeta</p>
+        <p>
+          Github:
+          <a href='https://github.com/Alarmedgogeta'>@Alarmedgogeta</a>
+        </p>
       </Footer>
     </Layout>
   </BrowserRouter>

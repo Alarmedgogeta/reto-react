@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ExclamationCircleTwoTone, MehTwoTone } from '@ant-design/icons';
 import GoBackButton from '../components/GoBackButton';

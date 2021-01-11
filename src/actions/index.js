@@ -12,3 +12,8 @@ export const setError = (payload) => ({
     type: 'SET_ERROR',
     payload,
 });
+
+export const deserializeActor = (payload) => ({
+    type: 'DESERIALIZE_ACTOR',
+    payload,
+});
