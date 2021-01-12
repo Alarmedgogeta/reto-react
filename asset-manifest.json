@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/reto-react/static/css/main.6bc53413.chunk.css",
-    "main.js": "/reto-react/static/js/main.88e216fb.chunk.js",
-    "main.js.map": "/reto-react/static/js/main.88e216fb.chunk.js.map",
+    "main.js": "/reto-react/static/js/main.6ba172d3.chunk.js",
+    "main.js.map": "/reto-react/static/js/main.6ba172d3.chunk.js.map",
     "runtime-main.js": "/reto-react/static/js/runtime-main.bbc00963.js",
     "runtime-main.js.map": "/reto-react/static/js/runtime-main.bbc00963.js.map",
     "static/css/2.cc6972a9.chunk.css": "/reto-react/static/css/2.cc6972a9.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.cc6972a9.chunk.css",
     "static/js/2.a6921cb9.chunk.js",
     "static/css/main.6bc53413.chunk.css",
-    "static/js/main.88e216fb.chunk.js"
+    "static/js/main.6ba172d3.chunk.js"
   ]
 }
