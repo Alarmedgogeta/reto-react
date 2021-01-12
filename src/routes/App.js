@@ -20,6 +20,7 @@ const App = () => (
       <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Switch>
           <Route exact path='/' component={Home} />
+          <Route exact path='/reto-react/' component={Home} />
           <Route exact path='/Actor/:name' component={Actor} />
           <Route component={NotFound} />
         </Switch>
