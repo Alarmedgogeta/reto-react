@@ -30,3 +30,7 @@ Una vez haya concluido, estamos listos para echar a correr el servidor. Lo hacem
 ```shell
 $ npm run start
 ```
+
+# Solo ver el proyecto
+
+Si simplemente desea ver el proyecto, puede visitar [este enlace](https://alarmedgogeta.github.io/reto-react/).
